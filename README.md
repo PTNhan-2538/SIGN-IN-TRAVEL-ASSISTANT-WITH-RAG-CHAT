@@ -1,23 +1,32 @@
 # SIGN-IN-TRAVEL-ASSISTANT-WITH-RAG-CHAT
 
-Trợ lý du lịch TP.HCM dựa trên kiến trúc RAG (Retrieval-Augmented Generation) kết hợp:
-- Streamlit UI
-- Firebase Authentication cho chức năng đăng nhập/đăng ký
-- Ollama embeddings + chat model để truy xuất và tổng hợp thông tin
-- Cẩm nang du lịch TP.HCM lưu trong file JSON
+A travel assistant for Ho Chi Minh City built with a Retrieval-Augmented Generation (RAG) architecture that combines:
+- Streamlit frontend
+- Firebase Authentication for sign-in/sign-up
+- Ollama embeddings and chat model for retrieval and answer generation
+- A local travel knowledge base stored in JSON
 
-Dự án này cho phép người dùng đăng nhập bằng email/password, sau đó đặt câu hỏi về các địa điểm, giờ mở cửa, giá vé, khu vực, và nhận câu trả lời dựa trên dữ liệu du lịch nội bộ thay vì đoán mơ hồ.
+This project allows users to sign in with email and password, ask questions about attractions, opening hours, ticket prices, locations, and get answers grounded in the project’s travel guide instead of relying on vague general knowledge.
 
-## Tính năng chính
+## Student and Project Information
 
-- Đăng nhập / đăng ký tài khoản bằng Firebase Email/Password
-- Giao diện chat thân thiện bằng Streamlit
-- Truy xuất top-k tài liệu phù hợp bằng cosine similarity
-- Tạo câu trả lời từ model Ollama theo ngữ cảnh đã truy xuất
-- Hiển thị nguồn tài liệu (retrieved docs) cho mỗi câu trả lời
-- Dữ liệu cẩm nang có thể mở rộng dễ dàng qua `knowledge_base.json`
+- **Student name:** `Phạm Thiện Nhân`
+- **Student ID:** `25127442`
+- **Course / class:** `25C09`
+- **Chosen city:** Ho Chi Minh City, Vietnam
 
-## Công nghệ sử dụng
+Replace the bracketed fields with the student's information before submitting.
+
+## Features
+
+- User sign up and sign in using Firebase Email/Password authentication
+- Clean and simple chat interface built with Streamlit
+- Top-k document retrieval using cosine similarity
+- Answer generation from Ollama based on retrieved context
+- Display of source references and retrieved documents for each response
+- Easy-to-extend knowledge base via `knowledge_base.json`
+
+## Tech Stack
 
 - Python 3.10+
 - Streamlit
@@ -26,39 +35,40 @@ Dự án này cho phép người dùng đăng nhập bằng email/password, sau 
 - NumPy
 - python-dotenv
 
-## Cấu trúc thư mục
+## Project Structure
 
 ```text
 SIGN-IN-TRAVEL-ASSISTANT-WITH-RAG-CHAT/
-├── app.py                 # Giao diện Streamlit chính
-├── firebase_client.py     # Xử lý đăng nhập, đăng ký với Firebase
-├── rag.py                # Logic embeddings, retrieval và LLM answer
-├── knowledge_base.json   # Cẩm nang du lịch TP.HCM
-├── .env.example          # Mẫu biến môi trường
-├── requirement.txt       # Danh sách dependency
-├── README.md             # Tài liệu dự án
-└── .venv                 # Môi trường ảo (nếu đã tạo)
+├── app.py                 # Main Streamlit app
+├── firebase_client.py     # Firebase sign-in/sign-up logic
+├── rag.py                # Embedding, retrieval, and LLM answer generation logic
+├── knowledge_base.json   # Ho Chi Minh City travel knowledge base
+├── .env.example          # Environment variable template
+├── requirement.txt       # Python dependencies
+├── README.md             # Project documentation
+├── .env                  # Local environment settings (not committed)
+└── .venv                 # Virtual environment (optional)
 ```
 
-## Yêu cầu môi trường
+## Requirements
 
-Trước khi chạy dự án, hãy đảm bảo bạn đã cài đặt:
+Before running the project, make sure you have:
 
-- Python 3.10+
-- Ollama đã được cài đặt và đang chạy
-- Một tài khoản Firebase với Email/Password Authentication bật
-- Kết nối từ Ollama ra ngoài nếu cần truy cập qua mạng công cộng (ví dụ: Pinggy / ngrok / tunnel khác)
+- Python 3.10 or later
+- Ollama installed and running locally
+- A Firebase project with Email/Password Authentication enabled
+- A public or local URL for Ollama if you need to access it remotely (for example via Pinggy, ngrok, or another tunnel)
 
-## Cài đặt
+## Installation
 
-1. Clone repository:
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/PTNhan-2538/SIGN-IN-TRAVEL-ASSISTANT-WITH-RAG-CHAT.git
 cd SIGN-IN-TRAVEL-ASSISTANT-WITH-RAG-CHAT
 ```
 
-2. Tạo môi trường ảo và cài đặt dependency:
+2. Create a virtual environment and install dependencies. On Windows:
 
 ```bash
 python -m venv .venv
@@ -66,13 +76,27 @@ python -m venv .venv
 pip install -r requirement.txt
 ```
 
-3. Tạo file `.env` dựa trên `.env.example`:
+On macOS or Linux:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirement.txt
+```
+
+3. Create a local `.env` file based on `.env.example`. On Windows:
 
 ```bash
 copy .env.example .env
 ```
 
-4. Điền thông tin trong `.env`:
+On macOS or Linux:
+
+```bash
+cp .env.example .env
+```
+
+4. Fill in the values in `.env`:
 
 ```env
 # Ollama & Pinggy Server Configuration
@@ -83,71 +107,108 @@ FIREBASE_API_KEY=your_firebase_api_key
 FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
 ```
 
-### Giải thích biến môi trường
+### Environment variables
 
-- `OLLAMA_PUBLIC_URL`: URL công khai của Ollama thông qua tunnel. Dự án sẽ gọi `POST {OLLAMA_PUBLIC_URL}/api/embed` và `POST {OLLAMA_PUBLIC_URL}/api/chat`.
-- `FIREBASE_API_KEY`: API key của project Firebase bạn đang dùng.
-- `FIREBASE_AUTH_DOMAIN`: domain auth của project Firebase (dùng cho thông tin project, không dùng trực tiếp bởi code hiện tại nhưng nên để đúng cấu hình).
+- `OLLAMA_PUBLIC_URL`: The public URL used to reach the Ollama service through a tunnel. The app calls:
+  - `POST {OLLAMA_PUBLIC_URL}/api/embed`
+  - `POST {OLLAMA_PUBLIC_URL}/api/chat`
+- `FIREBASE_API_KEY`: The API key for your Firebase project.
+- `FIREBASE_AUTH_DOMAIN`: The Firebase Auth domain for your project.
 
-## Chuẩn bị model Ollama
+## Prepare Ollama Models
 
-Cài đặt và pull các model cần thiết:
+Pull the required models:
 
 ```bash
 ollama pull embeddinggemma
 ollama pull qwen3:4b
 ```
 
-Nếu Ollama đang chạy local, hãy đảm bảo API server accessible từ máy chạy ứng dụng. Nếu cần public URL, hãy expose dịch vụ qua tunnel.
+If Ollama is running locally, ensure that the API is reachable from the machine running this app. If necessary, expose it through a tunnel.
 
-## Chạy ứng dụng
+## Run the Application
 
-Từ thư mục dự án:
+Make sure the Ollama service and required models are available, then run this command from the project directory:
 
 ```bash
 streamlit run app.py
 ```
 
-Mở trình duyệt tại địa chỉ hiển thị trong terminal, ví dụ:
+Open the local URL shown in the terminal, usually:
 
 ```text
-Local URL: http://localhost:8501
+http://localhost:8501
 ```
 
-## Cách sử dụng
+## Test Questions and Results
 
-1. Truy cập giao diện đăng nhập.
-2. Đăng ký hoặc đăng nhập bằng email và mật khẩu.
-3. Sau khi đăng nhập, bạn có thể hỏi các câu hỏi như:
-   - Giờ mở cửa Dinh Độc Lập?
-   - Chợ Bến Thành bán gì?
-   - Có địa điểm trượt tuyết nào ở đây không?
-4. Hệ thống sẽ:
-   - truy xuất các tài liệu liên quan
-   - so sánh độ tương đồng bằng vector
-   - sinh câu trả lời bằng Ollama dựa trên ngữ cảnh
-   - hiển thị nguồn tài liệu để kiểm tra
+The table below is a test plan for the current `knowledge_base.json`. The **retrieved IDs** and **correctness** fields are intentionally marked pending: they must be recorded from actual app runs because retrieval rankings depend on the embedding model and runtime environment. For each run, copy the IDs shown in the app's retrieved-context panel, check whether the answer matches the guide, and classify any incorrect result as a retrieval or generation failure (or missing data when the guide does not contain the answer).
 
-## Lưu ý quan trọng
+| # | Question | Expected entry ID | Retrieved IDs (actual run) | Answer correct? | Failure stage / notes |
+|---|---|---|---|---|---|
+| 1 | What are the adult admission fee and opening hours for Independence Palace? | G02 | Pending test | Pending test | Pending test |
+| 2 | What kinds of items can visitors buy at Ben Thanh Market? | G01 | Pending test | Pending test | Pending test |
+| 3 | Which district is the War Remnants Museum in? | G05 | Pending test | Pending test | Pending test |
+| 4 | **Paraphrase:** Where can I get a 360-degree view of Ho Chi Minh City and the Saigon River? | G07 | Pending test | Pending test | Pending test |
+| 5 | Is there a ski resort in Ho Chi Minh City? | None — not in the guide | Pending test | Pending test | Pending test; expected response: “I don't know based on the provided travel guide.” |
+| 6 | What is Ben Thanh Market's phone number? | None — not in the guide | Pending test | Pending test | Pending test; expected response: “I don't know based on the provided travel guide.” |
 
-- Hệ thống chỉ trả lời dựa trên `knowledge_base.json` + context được truy xuất, không phải đoán theo kiến thức chung.
-- Nếu không tìm thấy thông tin phù hợp trong dữ liệu đã cho, model sẽ trả về câu: `I don't know based on the provided travel guide.`
-- Đảm bảo Firebase API key hợp lệ và Ollama đang online trước khi sử dụng.
+For questions 1–4, the expected entry should appear among the retrieved IDs and the answer should be supported by that entry. For questions 5–6, retrieval may still return loosely related entries; the answer is correct only if the assistant does not invent the missing information. If the expected entry is absent, mark **retrieval**; if it is present but the response is unsupported or incorrect, mark **generation**; if the guide lacks the requested fact, mark **missing data**.
 
-## Mở rộng dự án
+## How to Use
 
-Bạn có thể dễ dàng mở rộng bằng cách:
+1. Open the app in the browser.
+2. Sign up or sign in using your email and password.
+3. After login, ask questions like:
+   - What time does Independence Palace open?
+   - What does Ben Thanh Market sell?
+   - Is there a skiing location here?
+4. The app will:
+   - retrieve the most relevant travel documents
+   - compare similarity using vector embeddings
+   - generate a response from Ollama using the retrieved context
+   - show the source references for verification
 
-- thêm nhiều địa điểm vào `knowledge_base.json`
-- đổi model embeddings hoặc chat model trong `rag.py`
-- tích hợp cơ sở dữ liệu hoặc lưu lịch sử chat dài hạn
-- thêm tính năng đánh giá score, filter theo category, hoặc multilingual support
+## Important Notes
 
-## Giấy phép
+- The system answers only from `knowledge_base.json` and the retrieved context, not from general world knowledge.
+- If the answer cannot be found in the available guide, the response will be:
+  `I don't know based on the provided travel guide.`
+- Make sure the Firebase API key is valid and Ollama is online before using the app.
 
-Dự án này được cung cấp theo mục đích học tập và phát triển nội bộ trong môi trường cá nhân / nhóm. Nếu bạn muốn sử dụng trong sản phẩm thương mại hoặc công khai, vui lòng kiểm tra lại điều kiện và nguồn dữ liệu du lịch trước khi triển khai.
+## Known Limitations
 
-## Liên hệ / tài liệu tham khảo
+- The knowledge base is a small, manually maintained guide; it may not cover every question or reflect current prices, schedules, or conditions.
+- Retrieval always returns the top matching entries when the knowledge base is available. There is no relevance-score threshold, so unrelated entries may be passed to the language model.
+- The model is instructed to stay within retrieved context, but generated answers can still be incomplete or incorrect. Check the cited entry and source.
+- The app depends on Ollama availability and network/tunnel stability. Slow model responses or an unstable connection can cause long waits or request failures.
+- Chat history is held in the current Streamlit session and is not persisted as a user account history.
+- Firebase configuration, an accessible Ollama endpoint, and the required Ollama models must be supplied by the person running the app.
+
+## AI Tools
+
+GitHub Copilot was used to assist with code and README edits. AI-generated suggestions should be reviewed against the source code and knowledge base.
+
+## Demonstration Video
+
+[Watch the project demonstration](ADD_DEMONSTRATION_VIDEO_URL)
+
+Replace `ADD_DEMONSTRATION_VIDEO_URL` with a shareable link to the demonstration video before submitting.
+
+## Extending the Project
+
+You can easily extend the project by:
+
+- adding more travel entries to `knowledge_base.json`
+- changing the embedding or chat model in `rag.py`
+- integrating a database or persistent chat history storage
+- adding filtering by category, score-based ranking, or multilingual support
+
+## License
+
+This project is intended for learning and internal development purposes. If you plan to use it in a commercial or public product, review the data sources and licensing terms before deployment.
+
+## References
 
 - Streamlit: https://streamlit.io/
 - Ollama: https://ollama.com/

@@ -11,6 +11,8 @@ OLLAMA_PUBLIC_URL = os.getenv("OLLAMA_PUBLIC_URL", "").strip().rstrip("/")
 EMBED_MODEL = "embeddinggemma"
 CHAT_MODEL = "qwen3:4b"
 CACHE_VECTOR_FILE = "vector_cache.npy"
+REQUEST_TIMEOUT = 120
+
 
 def load_knowledge_base(filepath="knowledge_base.json"):
     """Đọc dữ liệu từ file JSON cẩm nang du lịch."""
@@ -22,36 +24,34 @@ def load_knowledge_base(filepath="knowledge_base.json"):
 def get_embedding(text: str) -> list:
     """Gọi Ollama API để tạo vector cho một đoạn văn bản (dùng cho câu hỏi)."""
     url = f"{OLLAMA_PUBLIC_URL}/api/embed"
-    payload = {
-        "model": EMBED_MODEL,
-        "input": [text]
-    }
+    payload = {"model": EMBED_MODEL, "input": [text]}
     try:
-        res = requests.post(url, json=payload, timeout=30)
+        res = requests.post(url, json=payload, timeout=REQUEST_TIMEOUT)
         res.raise_for_status()
         data = res.json()
         return data["embeddings"][0]
     except Exception as e:
         raise RuntimeError(f"Lỗi kết nối Ollama Embeddings: {str(e)}")
 
+
 def get_embeddings_batch(texts: list) -> np.ndarray:
     """Tạo vector cho danh sách tài liệu bằng cách gọi tuần tự từng đoạn để tránh quá tải kết nối tunnel."""
+    if not texts:
+        return np.array([], dtype=float)
+
     url = f"{OLLAMA_PUBLIC_URL}/api/embed"
     embeddings = []
-    
+
     for text in texts:
-        payload = {
-            "model": EMBED_MODEL,
-            "input": [text]
-        }
+        payload = {"model": EMBED_MODEL, "input": [text]}
         try:
-            res = requests.post(url, json=payload, timeout=60)
+            res = requests.post(url, json=payload, timeout=REQUEST_TIMEOUT)
             res.raise_for_status()
             data = res.json()
             embeddings.append(data["embeddings"][0])
         except Exception as e:
             raise RuntimeError(f"Lỗi khi embed văn bản qua Ollama: {str(e)}")
-            
+
     return np.array(embeddings, dtype=float)
 
 def load_or_create_kb_vectors(kb_entries: list) -> np.ndarray:
@@ -83,35 +83,47 @@ def cosine_similarity(a, b):
         return 0.0
     return float(np.dot(a, b) / (norm_a * norm_b))
 
-def retrieve_top_k(query: str, kb_entries: list, kb_vectors: np.ndarray, k=3) -> list:
+def retrieve_top_k(query: str, kb_entries: list, kb_vectors: np.ndarray, k=2) -> list:
     """
     Truy xuất top-k entries dựa trên độ tương đồng Cosine.
     Trả về danh sách các tuple: (entry, score)
     """
     if not kb_entries or kb_vectors.size == 0:
         return []
-    
+
     query_vector = np.array(get_embedding(query), dtype=float)
     scores = []
-    
+
     for i, vec in enumerate(kb_vectors):
         score = cosine_similarity(query_vector, vec)
         scores.append((kb_entries[i], score))
-        
+
     scores.sort(key=lambda x: x[1], reverse=True)
     return scores[:k]
+
 
 def generate_rag_answer(query: str, retrieved_docs: list) -> str:
     """
     Sử dụng qwen3:4b để sinh câu trả lời chỉ dựa trên các tài liệu được truy xuất.
     Nếu thông tin không đủ, buộc phải nói 'I don't know'.
     """
+    if not retrieved_docs:
+        return "I don't know based on the provided travel guide."
+
     url = f"{OLLAMA_PUBLIC_URL}/api/chat"
-    
+
     context_str = ""
     for entry, score in retrieved_docs:
-        context_str += f"ID: {entry['id']}\nTitle: {entry['title']}\nContent: {entry['text']}\nSource: {entry['source']}\n\n"
-        
+        snippet = entry.get("text", "")
+        if len(snippet) > 500:
+            snippet = snippet[:500] + "..."
+        context_str += (
+            f"ID: {entry['id']}\n"
+            f"Title: {entry['title']}\n"
+            f"Content: {snippet}\n"
+            f"Source: {entry['source']}\n\n"
+        )
+
     system_prompt = (
         "You are a professional, helpful travel assistant for Ho Chi Minh City. "
         "Answer the user's question STRICTLY using ONLY the provided context entries below. "
@@ -119,9 +131,9 @@ def generate_rag_answer(query: str, retrieved_docs: list) -> str:
         "If the answer cannot be found in the provided context, you MUST say exactly: "
         "\"I don't know based on the provided travel guide.\" Do not guess or invent facts."
     )
-    
+
     user_prompt = f"Context Entries:\n{context_str}\nUser Question: {query}"
-    
+
     payload = {
         "model": CHAT_MODEL,
         "messages": [
@@ -129,13 +141,11 @@ def generate_rag_answer(query: str, retrieved_docs: list) -> str:
             {"role": "user", "content": user_prompt}
         ],
         "stream": False,
-        "options": {
-            "temperature": 0.1
-        }
+        "options": {"temperature": 0.1}
     }
-    
+
     try:
-        res = requests.post(url, json=payload, timeout=60)
+        res = requests.post(url, json=payload, timeout=REQUEST_TIMEOUT)
         res.raise_for_status()
         data = res.json()
         return data.get("message", {}).get("content", "Không thể tạo phản hồi từ mô hình.")

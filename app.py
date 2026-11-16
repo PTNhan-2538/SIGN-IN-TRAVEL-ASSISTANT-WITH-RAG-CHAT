@@ -135,8 +135,8 @@ else:
                 with st.chat_message("assistant"):
                     with st.spinner("Đang tìm kiếm thông tin và tổng hợp câu trả lời..."):
                         try:
-                            # Lấy top 3 kết quả phù hợp nhất
-                            top_docs = retrieve_top_k(query, kb_entries, kb_vectors, k=3)
+                            # Lấy top 2 kết quả phù hợp nhất để giảm thời gian phản hồi
+                            top_docs = retrieve_top_k(query, kb_entries, kb_vectors, k=2)
                             
                             # Sinh câu trả lời từ qwen3:4b
                             answer = generate_rag_answer(query, top_docs)
