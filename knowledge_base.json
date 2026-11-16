@@ -1,0 +1,122 @@
+[
+  {
+    "id": "G01",
+    "title": "Ben Thanh Market",
+    "text": "Ben Thanh Market is located in District 1, Ho Chi Minh City. It is one of the earliest surviving structures in the city and one of its symbols, popular with tourists seeking local handicrafts, textiles, áo dài, and souvenirs. Opening hours are generally from 6:00 AM to 6:00 PM, and night market stalls operate outside until late evening.",
+    "source": "Saigon Tourist Guide 2026",
+    "category": "market",
+    "tags": ["shopping", "souvenirs", "district 1", "landmark"]
+  },
+  {
+    "id": "G02",
+    "title": "Independence Palace",
+    "text": "The Independence Palace, also known as Reunification Palace, is a landmark in Ho Chi Minh City designed by architect Ngô Viết Thụ. It was the home and workplace of the President of South Vietnam during the Vietnam War. It is open daily from 8:00 AM to 3:30 PM. Admission fee is around 40,000 VND for adults.",
+    "source": "HCMC Heritage Office",
+    "category": "museum",
+    "tags": ["history", "architecture", "district 1", "sightseeing"]
+  },
+  {
+    "id": "G03",
+    "title": "Saigon Notre-Dame Cathedral",
+    "text": "Saigon Notre-Dame Cathedral is located in downtown Ho Chi Minh City, constructed by French colonists between 1863 and 1880. The cathedral features neo-Romanesque architecture with materials imported entirely from France. Please note that the cathedral undergoes periodic restoration work, so interior visits may be restricted.",
+    "source": "Saigon Cultural Heritage",
+    "category": "landmark",
+    "tags": ["architecture", "religion", "district 1", "french colonial"]
+  },
+  {
+    "id": "G04",
+    "title": "Central Post Office",
+    "text": "The Saigon Central Post Office is situated right next to Notre-Dame Cathedral. Designed with Gothic, Renaissance, and French influences, it features a grand vaulted ceiling and classic telephone booths. It remains a working post office and is open from 7:00 AM to 7:00 PM on weekdays and until 6:00 PM on weekends.",
+    "source": "Saigon Tourist Guide 2026",
+    "category": "landmark",
+    "tags": ["architecture", "post office", "district 1", "sightseeing"]
+  },
+  {
+    "id": "G05",
+    "title": "War Remnants Museum",
+    "text": "The War Remnants Museum on Võ Văn Tần street, District 3, documents the Vietnam War through photographs, military equipment, and thematic exhibitions. It is open daily from 7:30 AM to 5:30 PM. Ticket prices are 40,000 VND per person.",
+    "source": "HCMC Museum Department",
+    "category": "museum",
+    "tags": ["history", "war", "district 3", "exhibition"]
+  },
+  {
+    "id": "G06",
+    "title": "Nguyen Hue Walking Street",
+    "text": "Nguyễn Huệ Walking Street is a wide pedestrian promenade in District 1 lined with modern buildings, cafes, apartments converted into coffee shops, and hotels. It hosts major public events, flower festivals during Tết, and is a popular gathering spot at night.",
+    "source": "Saigon City Life Magazine",
+    "category": "street",
+    "tags": ["walking", "nightlife", "district 1", "hangout"]
+  },
+  {
+    "id": "G07",
+    "title": "Bitexco Financial Tower SkyDeck",
+    "text": "The Bitexco Financial Tower in District 1 stands at 262 meters. Its Saigon Skydeck on the 49th floor offers 360-degree panoramic views of Ho Chi Minh City and the Saigon River. It is open from 9:30 AM to 9:30 PM daily. Adult tickets cost approximately 240,000 VND.",
+    "source": "Saigon Tourist Guide 2026",
+    "category": "landmark",
+    "tags": ["viewpoint", "skyscraper", "district 1", "entertainment"]
+  },
+  {
+    "id": "G08",
+    "title": "Tan Dinh Church",
+    "text": "Tân Định Church, located on Hai Bà Trưng street, District 3, is famous for its striking pink exterior. Built during the French colonial period in the 19th century, it blends Gothic, Renaissance, and Romanesque architectural styles. It is open to visitors during specific hours outside of religious services.",
+    "source": "HCMC Heritage Office",
+    "category": "landmark",
+    "tags": ["architecture", "church", "district 3", "pink church"]
+  },
+  {
+    "id": "G09",
+    "title": "Jade Emperor Pagoda",
+    "text": "The Jade Emperor Pagoda (Phước Hải Tự) in District 1 is a Taoist temple built in 1909 by the Cantonese community. It features intricate wood carvings, statues of deities, and a turtle pond. It is open daily from 7:00 AM to 6:00 PM.",
+    "source": "Saigon Cultural Heritage",
+    "category": "temple",
+    "tags": ["religion", "taoism", "district 1", "culture"]
+  },
+  {
+    "id": "G10",
+    "title": "Bui Vien Walking Street",
+    "text": "Bùi Viện Walking Street in District 1 is the vibrant backpacker district of Ho Chi Minh City. Known for its bustling nightlife, pubs, street food vendors, and live music, it comes alive primarily from 7:00 PM until late into the night.",
+    "source": "Saigon Nightlife Guide",
+    "category": "street",
+    "tags": ["nightlife", "bars", "district 1", "party"]
+  },
+  {
+    "id": "G11",
+    "title": "Cu Chi Tunnels",
+    "text": "The Củ Chi Tunnels are an immense network of underground tunnels located about 40 kilometers northwest of Ho Chi Minh City. They served as hiding spots and supply routes during the Vietnam War. Visitors can crawl through parts of the tunnels and visit shooting ranges. Guided day tours are widely available from District 1.",
+    "source": "Southern Vietnam Tours",
+    "category": "historical site",
+    "tags": ["tunnels", "history", "cu chi", "day trip"]
+  },
+  {
+    "id": "G12",
+    "title": "Ho Chi Minh City Museum of Fine Arts",
+    "text": "Housed in a stunning colonial-era mansion that blends French and Chinese architectural elements, the Fine Arts Museum showcases Vietnamese artwork, including contemporary paintings, sculptures, and historical artifacts. Located in District 1, it is open daily from 8:00 AM to 5:00 PM with an admission fee of 30,000 VND.",
+    "source": "HCMC Museum Department",
+    "category": "museum",
+    "tags": ["art", "architecture", "district 1", "culture"]
+  },
+  {
+    "id": "G13",
+    "title": "Saigon River Waterbus",
+    "text": "The Saigon River Waterbus offers a public ferry transit route starting from Bạch Đằng wharf in District 1 up to Thủ Đức city. It provides a budget-friendly way to view the city skyline from the river. Tickets cost 15,000 VND per trip, and operating hours run from roughly 7:00 AM to 7:00 PM.",
+    "source": "Saigon Transport Review",
+    "category": "transport",
+    "tags": ["river", "boat", "district 1", "scenic"]
+  },
+  {
+    "id": "G14",
+    "title": "Suoi Tien Theme Park",
+    "text": "Suối Tiên Theme Park is a Buddhist-themed amusement park located in Thủ Đức City along the Hanoi Highway. It features a massive artificial beach, roller coasters, and structures inspired by Vietnamese mythology and legends. It is open daily from 8:00 AM to 5:00 PM.",
+    "source": "Saigon Leisure Guide",
+    "category": "amusement park",
+    "tags": ["theme park", "family", "thuduc", "entertainment"]
+  },
+  {
+    "id": "G15",
+    "title": "Phan Xich Long Food Street",
+    "text": "Phan Xích Long street in Phú Nhuận District is a major culinary hub in Ho Chi Minh City. It is packed with cafes, restaurants, bubble tea shops, and local eateries offering everything from traditional Vietnamese noodles to international cuisines.",
+    "source": "Saigon Culinary Association",
+    "category": "food",
+    "tags": ["food", "dining", "phu nhuan", "cafes"]
+  }
+]
